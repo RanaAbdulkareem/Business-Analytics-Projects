@@ -4,7 +4,7 @@ During my learning journey with Udacity as a Business Analytics student
 
 https://www.udacity.com/course/business-analytics-nanodegree--nd098
 
-I created 3 projects:
+I built 3 projects:
 
 
 Project1: 
