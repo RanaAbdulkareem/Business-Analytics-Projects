@@ -1,0 +1,50 @@
+/* Query 1 - query used for first insight */
+
+SELECT alb.Title, count(*) count_of_purchase
+FROM Album alb 
+JOIN Track tra 
+ON tra.AlbumId = alb.AlbumId
+JOIN InvoiceLine invo_l 
+ON invo_l.TrackId = tra.TrackId
+JOIN Invoice invo 
+ON invo_l.InvoiceId = invo.InvoiceId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 15;
+
+
+/* Query 2 - query used for second insight */
+
+SELECT gen.Name Genre_music, count(*) number_of_purchases
+FROM Invoice invo 
+JOIN InvoiceLine invo_l 
+ON invo_l.InvoiceId = invo.InvoiceId
+JOIN Track tra 
+ON invo_l.TrackId = tra.TrackId 
+JOIN Genre gen 
+ON tra.GenreId = gen.GenreId
+WHERE invo.BillingCountry = 'Brazil'
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+/* Query 3 - query used for third insight */
+
+SELECT cust.CustomerId, sum(invo.total) Total_per_cust, 
+CASE WHEN sum(invo.total) > 45 THEN 'More than 45$'
+     WHEN sum(invo.total) <= 45 AND sum(invo.total) > 38 THEN 'Between 38$ and 45$'
+	 ELSE 'Less than 38$' END AS Customer_Level
+FROM Customer cust 
+JOIN Invoice invo 
+ON invo.CustomerId = cust.CustomerId
+GROUP BY 1;
+
+
+/* Query 4 - query used for fourth insight */
+
+SELECT cust.Country customer_country, avg(inv.total) average_spent 
+FROM  Customer cust
+JOIN Invoice inv
+ON inv.CustomerId = cust.CustomerId
+GROUP BY 1
+ORDER BY 2 DESC;
